@@ -31,6 +31,7 @@ INSTALLED_APPS = [
 
     'products',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -44,6 +45,12 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 
 ROOT_URLCONF = 'store_manager.urls'
 
