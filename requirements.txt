@@ -5,3 +5,4 @@ Pillow==8.1.2
 python-decouple==3.4
 whitenoise==5.2.0
 gunicorn
+psycopg2

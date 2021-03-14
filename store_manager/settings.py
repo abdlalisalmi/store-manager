@@ -83,7 +83,6 @@ if not DEBUG:
     #     'API_SECRET': config('API_SECRET', default=''),
     # }
     # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 else:
     DATABASES = {
         'default': {
