@@ -40,18 +40,9 @@ class LoginView(APIView):
             return Response({'authenticate': request.user.is_authenticated }, status=200)
 
 
-# this is the logout class
-class LogoutView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [CsrfExemptSessionAuthentication]
-
-    def post(self, request):
-        logout_user(request)
-        return Response({'message': 'Logged out Successfully'}, status=status.HTTP_200_OK)
-
 
 class CategoryView(APIView):
-    authentication_classes = [CsrfExemptSessionAuthentication]
+    # authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, id=None):
@@ -94,7 +85,7 @@ class CategoryView(APIView):
 
 
 class ProductView(APIView):
-    authentication_classes = [CsrfExemptSessionAuthentication]
+    # authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, id=None):
