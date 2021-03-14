@@ -105,7 +105,10 @@ class ProductView(APIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except:
                 return Response({'message': "Product matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
-        products = Product.objects.all()
+        elif request.GET.get('category', None):
+            products = Product.objects.filter(category__name=request.GET.get('category', None))
+        else:
+            products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
