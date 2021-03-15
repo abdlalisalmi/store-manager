@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
-from .API.endpoints import CategoryView, ProductView
+from .API.endpoints import CategoryView, ProductView, SearchView
 
 app_name = 'products'
 urlpatterns = [
@@ -11,5 +11,7 @@ urlpatterns = [
 
     path('api/products/', ProductView.as_view(), name="ProductsAPI"),
     path('api/products/<int:id>/', ProductView.as_view(), name="OneProductsAPI"),
+
+    path('api/search/', SearchView.as_view(), name="SearchAPI"),
 
 ]

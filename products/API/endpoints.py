@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
 from django.contrib.auth import logout as logout_user
+from django.db.models import Q
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -97,7 +98,7 @@ class ProductView(APIView):
             except:
                 return Response({'message': "Product matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
         elif request.GET.get('category', None):
-            products = Product.objects.filter(category__name=request.GET.get('category', None))
+            products = Product.objects.filter(category=request.GET.get('category', None))
         else:
             products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
@@ -128,3 +129,21 @@ class ProductView(APIView):
             return Response({'message': "product Deleted Successfully"}, status.HTTP_200_OK)
         except:
             return Response({'message': "product matching query does not exist."}, status.HTTP_404_NOT_FOUND)
+
+class SearchView(APIView):
+    # authentication_classes = [CsrfExemptSessionAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request):
+        category = request.GET.get('category', None)
+        search = request.GET.get('search', None)
+        if category and search:
+            lookups = Q(category__exact=int(category), name__contains=search)
+        elif category:
+            lookups = Q(category__exact=category)
+        elif search:
+            lookups = Q(name__contains=search)
+
+        products = Product.objects.filter(lookups)
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
