@@ -69,7 +69,7 @@ class CategoryView(APIView):
             category = Category.objects.get(pk=int(id))
         except:
             return Response({'message': "Category matching query does not exist."}, status.HTTP_404_NOT_FOUND)
-        serializer = CategorySerializer(instance=category, data=request.data)
+        serializer = CategorySerializer(instance=category, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -115,7 +115,7 @@ class ProductView(APIView):
             product = Product.objects.get(pk=int(id))
         except:
             return Response({'message': "Product matching query does not exist."}, status.HTTP_404_NOT_FOUND)
-        serializer = ProductSerializer(instance=product, data=request.data)
+        serializer = ProductSerializer(instance=product, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

@@ -21,7 +21,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=1000)
     image = models.ImageField(upload_to=changeImageName)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.DecimalField(max_digits=20, decimal_places=2)
     box_quantity = models.IntegerField()
 
     def __str__(self):
