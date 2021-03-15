@@ -14,7 +14,7 @@ class Category(models.Model):
 
 def changeImageName(instence, imageName):
     ext = imageName.split('.')[1]
-    fullName = f"products/{instence.name}-{date.today()}.{ext}"
+    fullName = f"products/{instence.id}_{date.today()}.{ext}"
     return fullName
 
 class Product(models.Model):
