@@ -18,10 +18,10 @@ def changeImageName(instence, imageName):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=1000, blank=True, null=True)
-    image = models.ImageField(upload_to=changeImageName)
+    name = models.CharField(max_length=1000)
+    image = models.ImageField(upload_to=changeImageName, blank=True, null=True)
     price = models.DecimalField(max_digits=20, decimal_places=2)
-    box_quantity = models.IntegerField()
+    box_quantity = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
         return self.name
