@@ -1,5 +1,4 @@
 from django.db import models
-from datetime import date
 
 import sys
 from PIL import Image
@@ -14,7 +13,7 @@ class Category(models.Model):
 
 def changeImageName(instence, imageName):
     ext = imageName.split('.')[1]
-    fullName = f"products/{instence.id}_{date.today()}.{ext}"
+    fullName = f"products/{instence.name}.{ext}"
     return fullName
 
 class Product(models.Model):
@@ -36,7 +35,7 @@ class Product(models.Model):
         imageTemproary = imageTemproary.convert('RGB')
         outputIoStream = BytesIO()
         imageTemproaryResized = imageTemproary.resize( (1020,573) )
-        imageTemproary.save(outputIoStream , format='JPEG', quality=60)
+        imageTemproary.save(outputIoStream , format='JPEG', quality=50) 
         outputIoStream.seek(0)
         uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
         return uploadedImage
