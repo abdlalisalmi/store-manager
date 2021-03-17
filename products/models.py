@@ -1,3 +1,4 @@
+from store_manager.settings import DEBUG
 from django.db import models
 from django.conf import settings
 
@@ -9,7 +10,7 @@ from django.dispatch import receiver
 # from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from cloudinary import uploader
+import cloudinary
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -46,10 +47,8 @@ class Product(models.Model):
     #     uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
     #     return uploadedImage
 
-# @receiver(post_delete, sender=Product)
-# def create_user_account(sender, instance, **kwargs):
-#     if sender:
-#         print("deleting....")
-#         # image_id = str(instance.image).split('/')[2]
-#         uploader.destroy('1111_nbsruj', invalidate = True)
+@receiver(post_delete, sender=Product)
+def create_user_account(sender, instance, **kwargs):
+    if sender and not settings.DEBUG:
+        cloudinary.api.delete_resources([instance.image])
     
