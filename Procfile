@@ -1,1 +1,1 @@
-web: gunicorn store_manager.wsgi --timeout 60 --keep-alive 60 --log-file -
+web: waitress-serve --port=$PORT store_manager.wsgi:application

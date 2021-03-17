@@ -8,3 +8,4 @@ gunicorn
 psycopg2
 cloudinary==1.24.0
 django-cloudinary-storage==0.3.0
+waitress
