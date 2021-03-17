@@ -3,6 +3,8 @@ from django.contrib.auth import login as login_user
 from django.contrib.auth import logout as logout_user
 from django.db.models import Q
 
+import cloudinary
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, authentication, status
@@ -120,6 +122,11 @@ class ProductView(APIView):
             return Response({'message': "Product matching query does not exist."}, status.HTTP_404_NOT_FOUND)
         serializer = ProductSerializer(instance=product, data=request.data, partial=True)
         if serializer.is_valid():
+            # remove the old image from cloudinary
+            if request.data.get('image', None):
+                cloudinary.api.delete_resources([product.image])
+                
+            # remove some bad characters for the name
             name = serializer.validated_data['name'].replace('"', '').replace('\\', '')
             serializer.validated_data['name'] = name
             serializer.save()
