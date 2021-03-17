@@ -107,6 +107,8 @@ class ProductView(APIView):
     def post(self, request):
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
+            name = serializer.validated_data['name'].replace('"', '').replace('\\', '')
+            serializer.validated_data['name'] = name
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

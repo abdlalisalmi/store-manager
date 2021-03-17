@@ -34,8 +34,8 @@ class Product(models.Model):
         imageTemproary = Image.open(uploadedImage)
         imageTemproary = imageTemproary.convert('RGB')
         outputIoStream = BytesIO()
-        imageTemproaryResized = imageTemproary.resize( (1020,573) )
-        imageTemproary.save(outputIoStream , format='JPEG', quality=50) 
+        imageTemproaryResized = imageTemproary.resize( (720,480) )
+        imageTemproary.save(outputIoStream , format='JPEG', quality=40) 
         outputIoStream.seek(0)
         uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
         return uploadedImage
