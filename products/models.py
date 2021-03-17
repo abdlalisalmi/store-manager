@@ -1,11 +1,12 @@
 from django.db import models
+from django.conf import settings
 
 from django.db.models.signals import post_delete 
 from django.dispatch import receiver
 
-import sys
-from PIL import Image
-from io import BytesIO
+# import sys
+# from PIL import Image
+# from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from cloudinary import uploader
@@ -48,6 +49,7 @@ class Product(models.Model):
 # @receiver(post_delete, sender=Product)
 # def create_user_account(sender, instance, **kwargs):
 #     if sender:
-#         image_id = str(instance.image).split('/')[1].split('.')[0]
-#         uploader.destroy(image_id, invalidate = True)
+#         print("deleting....")
+#         # image_id = str(instance.image).split('/')[2]
+#         uploader.destroy('1111_nbsruj', invalidate = True)
     

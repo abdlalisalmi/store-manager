@@ -120,6 +120,8 @@ class ProductView(APIView):
             return Response({'message': "Product matching query does not exist."}, status.HTTP_404_NOT_FOUND)
         serializer = ProductSerializer(instance=product, data=request.data, partial=True)
         if serializer.is_valid():
+            name = serializer.validated_data['name'].replace('"', '').replace('\\', '')
+            serializer.validated_data['name'] = name
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
