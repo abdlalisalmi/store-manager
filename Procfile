@@ -1,1 +1,1 @@
-web: gunicorn store_manager.wsgi --log-file -
+web: gunicorn store_manager.wsgi --timeout 60 --keep-alive 60 --log-file -
