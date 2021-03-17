@@ -45,9 +45,9 @@ class Product(models.Model):
         uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
         return uploadedImage
 
-@receiver(post_delete, sender=Product)
-def create_user_account(sender, instance, **kwargs):
-    if sender:
-        image_id = str(instance.image).split('/')[1].split('.')[0]
-        uploader.destroy(image_id, invalidate = True)
+# @receiver(post_delete, sender=Product)
+# def create_user_account(sender, instance, **kwargs):
+#     if sender:
+#         image_id = str(instance.image).split('/')[1].split('.')[0]
+#         uploader.destroy(image_id, invalidate = True)
     
