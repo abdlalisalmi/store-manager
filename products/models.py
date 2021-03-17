@@ -1,9 +1,14 @@
 from django.db import models
 
+from django.db.models.signals import post_delete 
+from django.dispatch import receiver
+
 import sys
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from cloudinary import uploader
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -39,4 +44,10 @@ class Product(models.Model):
         outputIoStream.seek(0)
         uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
         return uploadedImage
+
+@receiver(post_delete, sender=Product)
+def create_user_account(sender, instance, **kwargs):
+    if sender:
+        image_id = str(instance.image).split('/')[1].split('.')[0]
+        uploader.destroy(image_id, invalidate = True)
     
