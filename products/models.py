@@ -32,9 +32,9 @@ class Product(models.Model):
 
     def compressImage(self,uploadedImage):
         imageTemproary = Image.open(uploadedImage)
-        imageTemproary = imageTemproary.convert('RGB')
+        if str(uploadedImage).split('.')[1].lower() == "png":
+            imageTemproary = imageTemproary.convert('RGB')
         outputIoStream = BytesIO()
-        imageTemproaryResized = imageTemproary.resize( (720,480) )
         imageTemproary.save(outputIoStream , format='JPEG', quality=40) 
         outputIoStream.seek(0)
         uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
