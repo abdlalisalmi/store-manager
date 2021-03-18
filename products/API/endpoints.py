@@ -166,6 +166,8 @@ class SearchView(APIView):
             lookups = Q(category__exact=category)
         elif search:
             lookups = Q(name__contains=search)
+        else:
+            return Response([], status=status.HTTP_200_OK)
 
         products = Product.objects.filter(lookups).order_by('-id')
         serializer = ProductSerializer(products, many=True)
