@@ -19,16 +19,6 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
-
-# # Storage settings
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': config('CLOUD_NAME', default=''),
-#     'API_KEY': config('API_KEY', default=''),
-#     'API_SECRET': config('API_SECRET', default=''),
-# }
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -60,8 +50,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2
 }
 
 ROOT_URLCONF = 'store_manager.urls'

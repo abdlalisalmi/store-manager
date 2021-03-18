@@ -48,7 +48,7 @@ class Product(models.Model):
     #     return uploadedImage
 
 @receiver(post_delete, sender=Product)
-def create_user_account(sender, instance, **kwargs):
+def delete_product_image(sender, instance, **kwargs):
     if sender and not settings.DEBUG:
         cloudinary.api.delete_resources([instance.image])
     
