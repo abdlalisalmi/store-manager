@@ -1,13 +1,15 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
-from django.contrib.auth import logout as logout_user
 from django.db.models import Q
 
 import cloudinary
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, authentication, status
+from rest_framework.pagination import PageNumberPagination
 
 from .serializers import CategorySerializer, ProductSerializer
 
@@ -101,6 +103,16 @@ class ProductView(APIView):
                 return Response({'message': "Product matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
         elif request.GET.get('category', None):
             products = Product.objects.filter(category=request.GET.get('category', None)).order_by('-id')
+            if request.GET.get('page', None):
+                page = request.GET.get('page', None)
+                paginator = Paginator(products, 2)
+                try:
+                    products = paginator.page(page)
+                except PageNotAnInteger:
+                    products = paginator.page(1)
+                except EmptyPage:
+                    return Response([], status=status.HTTP_200_OK)
+
         else:
             products = Product.objects.all().order_by('-id')
         serializer = ProductSerializer(products, many=True)
