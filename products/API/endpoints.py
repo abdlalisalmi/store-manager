@@ -105,7 +105,7 @@ class ProductView(APIView):
             products = Product.objects.filter(category=request.GET.get('category', None)).order_by('-id')
             if request.GET.get('page', None):
                 page = request.GET.get('page', None)
-                paginator = Paginator(products, 2)
+                paginator = Paginator(products, 10)
                 try:
                     products = paginator.page(page)
                 except PageNotAnInteger:
