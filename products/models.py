@@ -2,15 +2,16 @@ from store_manager.settings import DEBUG
 from django.db import models
 from django.conf import settings
 
-from django.db.models.signals import post_delete 
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
 # import sys
 # from PIL import Image
 # from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
+# from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import cloudinary
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -18,10 +19,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 def changeImageName(instence, imageName):
     ext = imageName.split('.')[1]
     fullName = f"products/{instence.name}.{ext}"
     return fullName
+
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -32,7 +35,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     # def save(self, *args, **kwargs):
     #     self.image = self.compressImage(self.image)
     #     super(Product, self).save(*args, **kwargs)
@@ -47,8 +50,8 @@ class Product(models.Model):
     #     uploadedImage = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
     #     return uploadedImage
 
+
 @receiver(post_delete, sender=Product)
 def delete_product_image(sender, instance, **kwargs):
     if sender and not settings.DEBUG:
         cloudinary.api.delete_resources([instance.image])
-    
