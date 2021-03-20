@@ -54,4 +54,7 @@ class Product(models.Model):
 @receiver(post_delete, sender=Product)
 def delete_product_image(sender, instance, **kwargs):
     if sender and not settings.DEBUG:
-        cloudinary.api.delete_resources([instance.image])
+        try:
+            cloudinary.api.delete_resources([instance.image])
+        except:
+            pass

@@ -136,7 +136,10 @@ class ProductView(APIView):
         if serializer.is_valid():
             # remove the old image from cloudinary
             if request.data.get('image', None):
-                cloudinary.api.delete_resources([product.image])
+                try:
+                    cloudinary.api.delete_resources([product.image])
+                except:
+                    pass
 
             # remove some bad characters for the name
             name = serializer.validated_data['name'].replace('"', '').replace('\\', '')
